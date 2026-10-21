@@ -1,0 +1,11 @@
+{
+  "kind": "speech",
+  "voice_id": "REPLACE_WITH_RETURNED_VOICE_ID",
+  "request": {
+    "model_id": "eleven_multilingual_v2",
+    "text": "これは音声設定を確認するためのサンプルです。"
+  },
+  "english_translation": "This is a sample for checking the voice settings.",
+  "estimated_credits": null,
+  "estimate_source": null
+}
