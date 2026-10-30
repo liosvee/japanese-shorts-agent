@@ -1,0 +1,19 @@
+{
+  "provider": "vidiq",
+  "tool": "vidiq_keyword_research",
+  "candidate_id": "replace-with-plan-candidate-id",
+  "collected_at": "",
+  "status": "ok",
+  "request": {},
+  "response": {},
+  "records": [
+    {
+      "title": "",
+      "source_url": "",
+      "pointer": "",
+      "scope": {"platform": "YouTube", "market": "unknown", "language": "unknown", "period": "unknown", "format": "unknown"},
+      "scope_basis_en": "",
+      "metrics": [{"name": "", "value": null, "unit": "", "kind": "provider_estimate", "pointer": ""}]
+    }
+  ]
+}

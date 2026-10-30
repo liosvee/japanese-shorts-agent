@@ -8,6 +8,8 @@ from elmarketing.client import load_env
 from elmarketing.jobs import write_json
 from .core import initialise, read, rank_niches, select, selected, keyword_report, record_keyword, prepare_speech
 from .youtube import YouTube, discover, verify, shortlist
+from .intelligence import start_run, load_input, import_bundle, analyze, decide
+from .reach import collect
 
 
 def main():
@@ -24,15 +26,29 @@ def main():
     p=sub.add_parser('verify'); p.add_argument('file'); p.add_argument('video_id'); p.add_argument('--evidence',required=True); p.add_argument('--title-en',required=True)
     p=sub.add_parser('shortlist'); p.add_argument('file')
     p=sub.add_parser('speech-plan'); p.add_argument('project'); p.add_argument('--voice',required=True); p.add_argument('--credits',type=float); p.add_argument('--estimate-source')
+    p=sub.add_parser('research-init'); p.add_argument('project'); p.add_argument('plan')
+    p=sub.add_parser('research-import'); p.add_argument('project'); p.add_argument('bundle')
+    p=sub.add_parser('research-collect'); p.add_argument('project'); p.add_argument('--channels', nargs='+', default=['youtube','web']); p.add_argument('--limit',type=int,default=5); p.add_argument('--retry-failed',action='store_true')
+    p=sub.add_parser('research-analyze'); p.add_argument('project')
+    p=sub.add_parser('research-decide'); p.add_argument('project'); p.add_argument('decision')
     args=parser.parse_args()
     load_env()
     if args.cmd=='doctor':
         result={'python':sys.version.split()[0], 'ffmpeg':bool(shutil.which('ffmpeg')), 'ffprobe':bool(shutil.which('ffprobe')),
                 'claude':bool(shutil.which('claude')), 'youtube_key_set':bool(os.getenv('YOUTUBE_API_KEY')),
+                'agent_reach':bool(shutil.which('agent-reach')), 'vidiq_mcp_config_present':Path('.mcp.json').is_file(),
                 'elevenlabs_key_set':bool(os.getenv('ELEVENLABS_API_KEY')),
                 'note':'Local presence only, not account/credit/API verification. Install a Japanese font for captions.'}
     elif args.cmd=='init': result=initialise(args.project)
     elif args.cmd=='status': result=read(Path(args.project)/'state.json')
+    elif args.cmd=='research-init': result=start_run(args.project,load_input(args.plan))
+    elif args.cmd=='research-import': result=import_bundle(args.project,load_input(args.bundle))
+    elif args.cmd=='research-collect': result=collect(args.project,args.channels,args.limit,args.retry_failed)
+    elif args.cmd=='research-analyze':
+        packet=analyze(args.project)
+        result={'input_sha256':packet['input_sha256'], 'candidates':packet['candidates'],
+                'evidence_records':len(packet['evidence']), 'note':'Full analysis.json and claude-brief.md saved in the active research run.'}
+    elif args.cmd=='research-decide': result=decide(args.project,load_input(args.decision))
     elif args.cmd=='niches':
         result=rank_niches(read(Path(args.project)/'niches.json'))
         write_json(Path(args.project)/'niches.ranked.json',result)
@@ -66,3 +82,4 @@ if __name__=='__main__':
     except (ValueError, KeyError, IndexError, OSError, RuntimeError) as exc:
         print(f'Error: {exc}',file=sys.stderr)
         sys.exit(1)
+

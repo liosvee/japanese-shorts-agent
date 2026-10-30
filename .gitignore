@@ -13,3 +13,6 @@ MASTER_CONTEXT.md
 *.egg-info/
 dist/
 build/
+.claude/settings.local.json
+*.research-bundle.json
+

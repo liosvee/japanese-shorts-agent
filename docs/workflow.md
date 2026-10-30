@@ -4,8 +4,11 @@ Project files are intentionally outside Git by default:
 
 | Stage | Files | Next action |
 | --- | --- | --- |
-| Initialised | state.json, blank scripts, niches.json | Research five niches |
-| Shortlist ready | niches.ranked.json, source notes | Wait for user choice |
+| Initialised | state.json, blank scripts, niches.json | Create a candidate research plan |
+| Collection | research/runs/ID/plan.json, evidence/*.json, collections/*.json | Collect vidIQ MCP and Agent-Reach results |
+| Analysis | analysis.json, claude-brief.md | Claude compares candidates and cites evidence |
+| Claude decision | decision.json, state.json.research_decision, optional next_topic | Continue to keyword/reference work, or record insufficient evidence |
+| Manual shortlist (only if requested) | niches.ranked.json, source notes | User selection |
 | Chosen | state.json.selected_niche | Keyword analytics |
 | Keywords | keywords.csv, keywords.ranked.json, keyword.json | YouTube discovery |
 | References | research/youtube-TIMESTAMP.json, reference-analysis.md | Original script |
@@ -27,3 +30,10 @@ verification annotates that snapshot. Preserve raw source exports separately.
 Evidence quality is a reasoning responsibility. JSON validation can enforce
 required fields and comparability labels, but cannot prove truth, originality,
 fluent Japanese, legitimate rights or the authenticity of an approval.
+
+
+Default research follows [the combined integration](research-integration.md).
+Fresh research runs preserve earlier evidence and decisions. An existing niche
+constrains next-topic research. A choice updates research state only; it never
+authorizes paid production. Resume the active run and inspect raw responses
+before repeating provider calls.

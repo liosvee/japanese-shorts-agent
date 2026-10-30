@@ -15,9 +15,14 @@ unknowns. Never promise a most profitable niche, guaranteed earnings or virality
 The niche score is an explicitly subjective, equally weighted rubric, not a
 revenue model. Ad CPC, channel size and views are not creator profit.
 
-Do not choose the niche for the user. Research and prepare a concrete shortlist,
-then stop for selection. After selection, continue through keywords, reference
-analysis and bilingual scripting without redundant confirmation. If reliable
+By default the user delegates the next niche/topic decision to Claude. Follow
+prompts/00-research-next.md: collect vidIQ and Agent-Reach evidence, analyze it,
+compare the alternatives and save a cited decision with research-decide. Do not
+ask for a niche selection again unless the user requests manual selection. An
+existing project keeps its niche; choose the next topic within it. If evidence
+is insufficient, record that outcome and the exact gaps rather than guessing.
+After selection, continue through keywords, reference analysis and bilingual
+scripting without redundant confirmation. If reliable
 keyword analytics are unavailable, state that and request an export or provider
 access; never fill the gap with guessed volume. Keep Google and YouTube data
 separate. Use current sources; record scope, date and units.
@@ -46,3 +51,4 @@ Do not print or commit API keys. Never commit .env, private projects or outputs.
 Do reversible preparation and local rendering autonomously. Watch/listen to
 final output before reporting visual/audio QA complete. No automatic publishing,
 channel creation, purchases, ad spending or sending messages is implemented.
+

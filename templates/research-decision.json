@@ -1,0 +1,9 @@
+{
+  "decided_by": "claude",
+  "input_sha256": "",
+  "status": "insufficient_evidence",
+  "selected_candidate_id": null,
+  "rationale_en": "",
+  "unknowns_en": "",
+  "comparisons": [{"candidate_id": "replace-with-plan-candidate-id", "rationale_en": "", "evidence_ids": []}]
+}

@@ -1,5 +1,9 @@
 # Research contracts and interpretation
 
+Default two-source research uses [vidIQ + Agent-Reach](research-integration.md).
+Claude reads the combined packet and saves its decision; the contracts below
+also support the existing niche rubric, keyword CSV and YouTube metadata tools.
+
 ## Niches
 
 Fill templates/niches.json with real evidence. Each niche requires a unique ID,
@@ -73,3 +77,4 @@ Creator revenue and private retention are not provided by this research client.
 
 The current client does not fetch channel baselines. Any claims of unusual
 performance relative to a channel must use separately sourced comparable data.
+

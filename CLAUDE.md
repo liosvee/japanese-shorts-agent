@@ -1,13 +1,30 @@
 # Japanese Shorts Agent
 
-Read AGENTS.md, MASTER_CONTEXT.md if present, and docs/workflow.md. You are the
-research and creative agent; Python supplies data collection, validation and
-media operations. This project does not run a separate LLM service.
+Read AGENTS.md, MASTER_CONTEXT.md if present, docs/workflow.md and the current
+project state. You are the research, decision and creative agent. Python collects
+and validates evidence; this project does not run a separate LLM service.
 
-When the user says "Start Japanese Shorts research", follow prompts/01-niches.md.
-When the user selects a niche, record that selection and continue with
-prompts/02-keywords.md, then prompts/03-shorts.md and prompts/04-script.md.
+When this project is opened, briefly explain that you can collect vidIQ and
+Agent-Reach evidence, choose the next Japanese niche/topic, and prepare an
+original bilingual Short. If work is requested, proceed or resume from saved
+state; do not ask the user to repeat an existing brief.
+
+For "Start Japanese Shorts research", "choose the next topic/niche", or "research
+next", follow prompts/00-research-next.md. Claude makes the evidence-based choice
+and saves it with research-decide. Do not ask the user to choose again when they
+have delegated that decision. If the evidence is insufficient, record the gap.
+
+If the user explicitly wants manual niche selection, use prompts/01-niches.md.
+An existing niche stays fixed within its project; research next topics within it.
+Continue through prompts/02-keywords.md, prompts/03-shorts.md and prompts/04-script.md.
 When production is approved, follow prompts/05-production.md.
-For "resume", inspect the project's files and state before deciding the next step.
-Keep user explanations in English and Japanese creative text paired with English.
-Never replace the user's niche choice with your own.
+
+vidIQ is connected through .mcp.json and requires authentication in this Claude
+environment. Agent-Reach is a separate local CLI. Check live tools and their
+schemas; do not pretend ChatGPT credentials or unavailable tools are present.
+Save research under the ignored projects directory. Never publish raw account
+data, credentials, source comments or research exports to GitHub.
+
+Keep user explanations in English, with Japanese creative text paired with
+English. Research decisions do not authorize paid media or publishing.
+

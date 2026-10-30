@@ -1,0 +1,7 @@
+{
+  "mode": "niche",
+  "max_age_days": 14,
+  "candidates": [
+    {"id": "replace-with-candidate-id", "name_ja": "", "name_en": "", "query_ja": ""}
+  ]
+}

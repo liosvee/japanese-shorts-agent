@@ -1,5 +1,8 @@
 # Research the shortlist
 
+Manual-selection mode only. For delegated decisions, including the default
+"Start Japanese Shorts research" flow, use prompts/00-research-next.md instead.
+
 1. Read the brief. Initialise `projects/first-short` unless the user supplied a
    different project. Run doctor. Use web research available in Claude Code;
    a ChatGPT connector is not automatically available in this local session.
@@ -18,3 +21,4 @@
    under the chosen revenue model and why. Say when evidence is insufficient.
 6. Ask the user to choose one. Stop here. Do not call select yourself until the
    user chooses. Save the shortlist and decision context so the run can resume.
+

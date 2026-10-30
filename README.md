@@ -1,8 +1,8 @@
 # Japanese Shorts Agent — Claude Code
 
 Research Japanese-language YouTube opportunities, explain the evidence in
-English, let the user choose a niche, then develop and produce an original
-Japanese Short with ElevenLabs and FFmpeg.
+English, let Claude choose the next niche or topic from vidIQ and Agent-Reach
+evidence, then develop an original Japanese Short with ElevenLabs and FFmpeg.
 
 An independent companion to [liosvee/elevenlabs-claudecode](https://github.com/liosvee/elevenlabs-claudecode).
 Claude Code is the research/creative agent. Python handles reproducible data
@@ -11,10 +11,11 @@ LLM server, web dashboard or automatic publishing.
 
 ## Workflow
 
-1. **Research five niches:** Japanese names, English interpretations, demand
-   evidence, revenue routes, competition and production effort. Rankings are
-   editorial assessments, not proof of profit.
-2. **User selects one:** the agent stops at this decision and saves the selection.
+1. **Collect evidence:** vidIQ keyword/video research plus Agent-Reach web and
+   YouTube context, with raw responses, source URLs, scope and retrieval dates.
+2. **Claude decides:** compare candidate niches or topics, explain the evidence
+   in English, and save a cited choice. Insufficient evidence produces no choice.
+   Manual selection is available when explicitly requested.
 3. **Analyse keywords:** import sourced analytics, rank comparable Japanese
    YouTube estimates and choose a relevant high-demand keyword.
 4. **Inspect Shorts:** collect public YouTube metadata, verify real Japanese
@@ -28,9 +29,12 @@ LLM server, web dashboard or automatic publishing.
 
 | Component | Implementation and limits |
 | --- | --- |
-| Claude workflow | CLAUDE.md plus five stage prompts; live research requires Claude's available search/browser tools |
-| Niche ranking | Source-required JSON, four explicit editorial assessments, persisted user choice |
-| Keyword analytics | CSV import and ranking by comparable provider/platform/market/period; no built-in paid analytics API |
+| Claude workflow | Startup guidance and evidence-to-decision prompt; Claude calls MCP, reads the packet and chooses |
+| Niche/topic decision | Fresh two-provider coverage, cited comparisons, input hash and persisted Claude decision |
+| vidIQ | Official MCP configuration, request plans and raw-response imports with explicit JSON-pointer metric mappings |
+| Agent-Reach | Bounded read-only searches, checkpoints, error recording and v1 JSON-envelope adapter |
+| Evidence analysis | Comparable metric groups, missing/stale evidence, duplicate URLs and a Claude briefing |
+| Keyword analytics | Existing CSV workflow remains available; provider estimates and scopes stay separate |
 | YouTube research | Data API search + video metadata; bounded pagination, deduplication, dated snapshots |
 | Shorts verification | Explicit observation notes; duration alone never confirms a Short |
 | Original creative work | Claude drafts Japanese and English, fact checks and asset plans |
@@ -38,20 +42,24 @@ LLM server, web dashboard or automatic publishing.
 | Japanese captions | Character-timed cue splitting with explicit font-file support |
 | Assembly | FFmpeg 1080x1920 output, narration, stills/clips, optional music and burned captions |
 
-**Not included:** a vidIQ API adapter, automatic competitor video/transcript
-downloads, stock/Canva connectors, revenue predictions or channel publishing.
-The instructions explain how to use an analytics tool already available to
-Claude or import its export. Your ChatGPT connections are separate from local
-Claude Code credentials. Reference playback needs an available permitted browser
-or video tool, or user-supplied observations/transcripts.
+**Not included:** a separate autonomous LLM server, automatic paid media,
+competitor footage reuse, stock/Canva connectors, revenue predictions or channel
+publishing. Claude calls vidIQ through MCP; the Python CLI does not call a hidden
+vidIQ REST API. Your ChatGPT credentials do not transfer to local Claude Code.
+Reference playback still needs a permitted browser/video tool or supplied observations.
+
+See [research integration and setup](docs/research-integration.md) for the full
+vidIQ → saved evidence ← Agent-Reach → Claude decision workflow.
 
 ## Setup
 
 Requirements: Python 3.10+, Claude Code, FFmpeg/FFprobe with libass and libx264,
 and a Japanese font such as Noto Sans CJK JP. Python has no runtime package
 dependencies. Paid media also requires your own ElevenLabs API access and
-available credits. YouTube discovery requires a Google project with YouTube
-Data API v3 enabled and an appropriately restricted API key.
+available credits. For the combined research workflow, authenticate vidIQ using
+`/mcp` in Claude Code and install/configure Agent-Reach using the
+[setup guide](docs/research-integration.md). The legacy Data API discovery command
+separately requires a Google project/key with YouTube Data API v3 enabled.
 
 On Windows, open the extracted project folder in PowerShell. On macOS/Linux,
 use a terminal; replace `python` with `python3` if needed.
@@ -73,17 +81,38 @@ claude
 
 Then paste:
 
-> Start Japanese Shorts research. Follow CLAUDE.md. Research five commercially
-> promising Japanese-language niches, explain the evidence and uncertainty in
-> English, and wait for me to choose one. After I choose, research Japanese
-> YouTube keywords and successful Shorts, then prepare an original Japanese
-> script with an English translation. Show the storyboard and complete media
-> cost estimate before generating paid media. Do not publish.
+> Research the next Japanese niche or topic using vidIQ and Agent-Reach.
+> Analyze the collected evidence and make the decision yourself. Explain the
+> choice and uncertainty in English with Japanese names and sources. Then prepare
+> an original Japanese Short with an English translation. Show the storyboard
+> and complete media cost estimate before generating paid media. Do not publish.
 
 Claude will use `projects/first-short` by default. No niche or live analytics
 has already been researched by downloading this project.
 
-## Commands
+## Combined research commands
+
+Claude prepares the plan, calls vidIQ MCP, maps the real responses and writes
+the decision. These CLI commands preserve and validate that work:
+
+```sh
+python -m jp_shorts research-init PROJECT PROJECT/research-plan.json
+python -m jp_shorts research-collect PROJECT --limit 5
+python -m jp_shorts research-import PROJECT PROJECT/keyword.research-bundle.json
+python -m jp_shorts research-analyze PROJECT
+python -m jp_shorts research-decide PROJECT PROJECT/decision.input.json
+```
+
+Initialize PROJECT first with `python -m jp_shorts init PROJECT`. Templates and
+[the Claude prompt](prompts/00-research-next.md) explain each input. Use mode=topic
+and the selected niche_id for the next topic. Old runs remain available for
+resumption; raw research stays under ignored `projects/`.
+
+**Known coverage limit:** the reviewed vidIQ outlier tool supports Japanese
+long-form, not Japanese Shorts. The workflow uses Japanese video discovery and
+actual Shorts verification; long-form and other-platform signals stay context.
+
+## Existing research and production commands
 
 Run from the repository root. Replace PROJECT with your project directory.
 
@@ -160,3 +189,4 @@ exists, skip init/initial commit. Include hidden project files when transferring
 the archive. Do not replace your existing ElevenLabs repository with this one.
 
 See [sources](docs/sources.md), [workflow](docs/workflow.md) and [NOTICE](NOTICE.md).
+

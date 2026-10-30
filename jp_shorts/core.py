@@ -74,7 +74,7 @@ def initialise(folder):
     write_json(root/'niches.json', {'niches': []})
     (root/'script.ja.txt').write_text('', encoding='utf-8')
     (root/'script.en.txt').write_text('', encoding='utf-8')
-    return {'project': str(root.resolve()), 'next': 'Claude researches niches into niches.json; see templates/niches.json.'}
+    return {'project': str(root.resolve()), 'next': 'Follow prompts/00-research-next.md to collect vidIQ and Agent-Reach evidence for Claude to choose a niche or topic.'}
 
 
 def select(folder, niche_id):
@@ -94,7 +94,7 @@ def select(folder, niche_id):
 def selected(folder):
     state = read(Path(folder)/'state.json')
     if not state.get('selected_niche'):
-        raise ValueError('Wait for the user to choose a niche, then run select.')
+        raise ValueError('Choose a niche through research-decide, or record an explicit user choice with select.')
     return state
 
 
@@ -159,3 +159,4 @@ def prepare_speech(folder, voice, credits=None, estimate_source=None):
             'script_sha256': hashlib.sha256(text.encode()).hexdigest()}
     write_json(root/'speech.plan.json', plan)
     return plan
+

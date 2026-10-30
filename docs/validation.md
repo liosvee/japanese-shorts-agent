@@ -1,33 +1,25 @@
-# Delivery validation — 21 October 2026
+# Integration validation — 30 October 2026
 
-## Completed
+- 55 offline tests passed, including 23 new research integration/transport tests
+  and the existing real FFmpeg rendering test.
+- Tested two-source niche selection, next-topic selection within an existing
+  niche, insufficient evidence, required citations and immutable decided runs.
+- Tested missing/stale sources, exact raw metric pointers, unknown values,
+  scope grouping, duplicate-source identification and changed-input rejection.
+- Agent-Reach transport tests use mocks: bounded read-only argument lists,
+  no shell execution, caching, explicit retry, rate limits, timeouts, missing CLI
+  and unsupported response versions.
+- The vidIQ MCP configuration and Agent-Reach command/envelope contracts were
+  checked against official documentation and the upstream source referenced in
+  docs/research-integration.md.
 
-- Python 3.12.14: 32 offline tests passed.
-- Real FFmpeg/FFprobe renders produced H.264/AAC output at 1080x1920.
-- A frame from an additional synthetic render was inspected: caption placement
-  and sizing were visible and within the portrait frame.
-- Japanese unspaced text split into bounded cues using supplied character timing.
-- Japanese caption rendering rejected a missing explicit font file.
-- Keyword tests preserved missing values, separated incompatible sources and
-  rejected invalid values and the wrong target market.
-- User niche selection and project reinitialisation guards were exercised.
-- YouTube mocks verified pagination bounds, deduplication, duration filtering,
-  absent statistics, and verified-only shortlists.
-- ElevenLabs mocks exercised exact request payloads, changed-plan rejection,
-  duplicate-job prevention, polling and unknown outcomes without paid retries.
+Live vidIQ authorization in the user's Claude environment, actual Agent-Reach
+network searches, and a complete Claude research/decision session were not run
+here. No research credits or paid media were used for this integration's tests.
+These tests are not market findings, revenue evidence or Japanese editorial QA.
+Configure/authenticate the providers in the environment where Claude runs.
 
-## Not exercised live
 
-- Claude Code execution: the Claude executable was not installed in this build environment.
-- YouTube API authentication or live discovery: no local API key was configured.
-- Keyword-provider integration: this release imports sourced CSV data; it has no
-  built-in vidIQ/Google Ads traffic API adapter.
-- Paid ElevenLabs generation, current voice availability, credits or billing.
-- Actual Japanese font glyph rendering: no Japanese font was installed here.
-  Configure a Japanese font and inspect a real export before production.
-- Japanese narration pronunciation, translation quality or fluent editorial review.
-- Live niche research, revenue outcomes, Shorts performance or publishing.
-
-The saved synthetic media is only a technical check, not a produced Japanese
-Short. No API credits were consumed by these tests. GitHub Actions is configured,
-but has not run remotely because this project has not yet been uploaded.
+A subprocess CLI smoke check also completed initialization, two-source fixture
+imports, analysis, decision recording and state verification. All research
+values in that check were synthetic and the temporary workspace was removed.
