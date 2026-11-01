@@ -144,6 +144,8 @@ def record_keyword(folder, report_path, group_index, keyword):
 
 
 def prepare_speech(folder, voice, credits=None, estimate_source=None):
+    from evolution.learn import verify_for_file
+    verify_for_file(Path(folder) / "script.ja.txt")
     selected(folder)
     root = Path(folder)
     text = (root/'script.ja.txt').read_text(encoding='utf-8').strip()

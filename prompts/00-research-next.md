@@ -126,3 +126,5 @@ research instead of repeating paid calls. next_topic.query_ja can seed keyword
 research. Verify real Japanese Shorts and factual script claims. Prepare original
 bilingual writing and keep script/media cost review before paid production.
 No automatic publishing.
+
+After the cited niche/topic decision, start the scoped [production-learning workflow](../evolution/WORKFLOW.md). Topic intelligence chooses what to make; the six-facet brief guides its original execution. Reuse fresh captured sources when they match the new run and scope, retaining their actual collection time.
