@@ -5,6 +5,12 @@
 For a new production, follow [the shared learning workflow](../evolution/WORKFLOW.md) after intake establishes the niche. Read the active run's brief before drafting. Prepare an original script, thumbnail plan, hashtags, tags, description and storyboard, addressing the applicable rules for all six facets. Apply the findings with an artifact-bound receipt and verify before narration, paid media or render commands. After retiming or revising bound artifacts, re-apply and verify; preserve existing approvals. A resumed production uses its existing research run. Unavailable observations remain explicit gaps.
 
 
+When running research-next-video, the coordinator first exports the selected
+topic with `python -m jp_shorts.agent_brief PROJECT` and issues the writer
+packet described in the [handoff protocol](../.claude/skills/research-next-video/protocol/packets.md).
+Receive and inspect the actual script before issuing the editor packet. Bind
+both packets in the native application receipt before production.
+
 Create script.ja.txt, script.en.txt, storyboard.json, claims.json and packaging.md
 inside the project. Use templates/storyboard.json and templates/claims.json.
 

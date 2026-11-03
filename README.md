@@ -9,6 +9,20 @@ Claude Code is the research/creative agent. Python handles reproducible data
 collection, validation, captioning and rendering. There is no separate autonomous
 LLM server, web dashboard or automatic publishing.
 
+## Run the Claude Code skill
+
+Open Claude Code in this checkout and run:
+
+~~~text
+/research-next-video Choose the next Japanese Short for my channel. Use vidIQ and Agent-Reach, then hand the selected topic to the writer and storyboard editor.
+~~~
+
+For niche research only, ask the same command to choose a niche. The coordinator
+records its decision, refreshes the scoped production knowledge, and gives the
+writer an evidence brief. The editor receives the resulting script and verified
+visual references. Each agent returns its actual working files. Setup, access
+and research credit requirements are below. [Skill and portable setup](.claude/skills/research-next-video/SKILL.md).
+
 ## Workflow
 
 1. **Collect evidence:** vidIQ keyword/video research plus Agent-Reach web and

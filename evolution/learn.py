@@ -115,6 +115,31 @@ def lock(folder):
         path.unlink()
 
 
+def check_agent_handoffs(project, folder, plan):
+    """When a Claude brief exists, bind the reviewed packets and exact production script."""
+    brief_path = folder / "research-brief.json"
+    prefix = "agent-handoffs/" + plan["run_id"] + "/"
+    writer_name, editor_name = prefix + "writer.json", prefix + "editor.json"
+    inputs = set(plan.get("production_inputs", []))
+    if not brief_path.exists() and not inputs.intersection({writer_name, editor_name}):
+        return None
+    require({writer_name, editor_name} <= inputs, "Bind both agent handoff packets in production_inputs.")
+    brief = read(brief_path)
+    writer_path = local(project, writer_name)
+    writer, editor = read(writer_path), read(local(project, editor_name))
+    brief_hash = file_hash(brief_path)
+    require(brief["run_id"] == writer["run_id"] == editor["run_id"] == plan["run_id"] and
+            writer["role"] == "writer" and editor["role"] == "editor", "Wrong agent handoff run or role.")
+    require(writer["brief_sha256"] == editor["brief_sha256"] == brief_hash and
+            editor["writer_sha256"] == file_hash(writer_path), "Research or writer handoff changed.")
+    require(editor["script"] == plan["facets"]["script"]["artifact"] and
+            editor["script_sha256"] == file_hash(local(project, editor["script"])), "The editor needs the current production script.")
+    require(date(brief["valid_until"]) > date(now()), "Agent research expired.")
+    for name, expected in brief["input_hashes"].items():
+        require(file_hash(local(project, name)) == expected, "Agent research input changed: " + name)
+    return brief_hash
+
+
 class Learning:
     def __init__(self, home=HERE):
         self.home = Path(home).resolve()
@@ -232,9 +257,12 @@ class Learning:
                     require(raw.get(key) is not None, "Unknown metadata must be unavailable, not empty.")
                     require(isinstance(raw[key], list if facet == "tags" else str), "Invalid metadata field type.")
                 if facet in {"script", "frames"}:
-                    require(f.get("timestamps"), "Spoken/visual observations need timestamp anchors.")
+                    timestamps = f.get("timestamps", [])
+                    require(isinstance(timestamps, list), "Timestamps must be a list of seconds.")
+                    if f["method"] != "transcript":
+                        require(timestamps, "Moving-image observations need timestamp anchors.")
                     duration = number(v["duration_seconds"], "duration")
-                    for t in f["timestamps"]:
+                    for t in timestamps:
                         require(number(t, "timestamp") <= duration, "Timestamp outside video duration.")
                 if facet == "frames" and f["method"] == "frame_inspection":
                     require(f.get("frame_files"), "Frame inspection requires saved samples.")
@@ -355,8 +383,10 @@ class Learning:
             artifacts[relative] = file_hash(local(project, relative))
         require(not set(artifacts).intersection(read(folder / "sources.json")),
                 "Production inputs cannot be competitor evidence files.")
+        handoff_hash = check_agent_handoffs(project, folder, plan)
         write(folder / "application.json", {"run_id": run["run_id"], "knowledge_hash": run["knowledge_hash"],
-                                           "plan": plan, "artifacts": artifacts, "created_at": now()})
+                                           "handoff_sha256": handoff_hash, "plan": plan,
+                                           "artifacts": artifacts, "created_at": now()})
         run["phase"] = "applied"
         write(folder / "run.json", run)
         return {"run_id": run["run_id"], "artifacts": artifacts, "status": "applied"}
@@ -371,6 +401,8 @@ class Learning:
         require(all(date(r["expires_at"]) > date(now()) for r in knowledge["rules"]),
                 "Applied rules expired; refresh research before new production work.")
         require(digest(read(folder / "evidence.json")) == run["evidence_hash"], "Research evidence changed.")
+        require(check_agent_handoffs(project, folder, receipt["plan"]) == receipt.get("handoff_sha256"),
+                "Agent handoff differs from the applied receipt.")
         for hashes in (read(folder / "sources.json"), receipt["artifacts"]):
             for relative, expected in hashes.items():
                 require(file_hash(local(project, relative)) == expected, "Changed evidence/artifact: " + relative)
