@@ -14,9 +14,11 @@ Agent-Reach evidence, choose the next Japanese niche/topic, and prepare an
 original bilingual Short. If work is requested, proceed or resume from saved
 state; do not ask the user to repeat an existing brief.
 
-For "Start Japanese Shorts research", "choose the next topic/niche", or "research
-next", follow prompts/00-research-next.md. Claude makes the evidence-based choice
-and saves it with research-decide. Do not ask the user to choose again when they
+For /research-next-video, "Start Japanese Shorts research", or "choose the next
+topic/niche", use .claude/skills/research-next-video/SKILL.md. It coordinates
+the existing prompts/00-research-next.md workflow and saves Claude's choice
+with research-decide. Run its researcher, scriptwriter and editor in sequence.
+The coordinator owns the topic decision, scoped knowledge sync and final checks. Do not ask the user to choose again when they
 have delegated that decision. If the evidence is insufficient, record the gap.
 
 If the user explicitly wants manual niche selection, use prompts/01-niches.md.

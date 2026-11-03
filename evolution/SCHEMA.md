@@ -50,7 +50,10 @@ requires a known list; hashtags/description require a known description string.
 Keep tags `null` unavailable. A known empty list or description is observable.
 For `frames.method = frame_inspection`, also provide `frame_files` with paths
 to the permitted samples actually inspected. `script` alternatively accepts
-`video_analysis`. Never use transcript/metadata as visual evidence.
+`video_analysis`. Untimed transcripts can support a script observation. Cite the
+actual passage or its position and omit timestamps or supply an empty list.
+Moving-image observations require real time anchors for both script and frames.
+Never infer shot timing from a transcript or metadata.
 
 `lessons`: a list of `{id, facet, observation, application, video_ids}`. IDs use
 3–64 lowercase letters, digits, hyphens or underscores, starting with a letter.
