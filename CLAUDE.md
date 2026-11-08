@@ -21,12 +21,18 @@ have delegated that decision. If the evidence is insufficient, record the gap.
 
 If the user explicitly wants manual niche selection, use prompts/01-niches.md.
 An existing niche stays fixed within its project; research next topics within it.
-Continue through prompts/02-keywords.md, prompts/03-shorts.md and prompts/04-script.md.
+Continue through prompts/02-keywords.md, prompts/03-shorts.md, then the viral-blueprint
+skill, then prompts/04-script.md.
 When production is approved, follow prompts/05-production.md.
 
-For "find viral videos in my niche and make a better version", use the viral-blueprint
-skill (within the project's niche): vidIQ search → most-viewed picks → blueprint → original script via
-prompts/04-script.md, copy-checked with its blueprint.py check.
+## Viral blueprint runs first
+
+Every **new** video or episode starts with the **`viral-blueprint`** skill, before any script is
+written: vidIQ search for the niche's most-viewed videos → pick → blueprint → original,
+copy-checked script, title and metadata → then the normal pipeline below. Skip it only when
+(a) revising or resuming an existing project — reuse its saved `viral/` research and never repeat
+paid calls — or (b) the user explicitly says to skip it for this video. State the vidIQ credit
+estimate before collecting. A blueprint is structure, never copied words.
 
 vidIQ is connected through .mcp.json and requires authentication in this Claude
 environment. Agent-Reach is a separate local CLI. Check live tools and their
