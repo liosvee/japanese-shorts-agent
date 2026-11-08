@@ -24,6 +24,10 @@ An existing niche stays fixed within its project; research next topics within it
 Continue through prompts/02-keywords.md, prompts/03-shorts.md and prompts/04-script.md.
 When production is approved, follow prompts/05-production.md.
 
+For "find viral videos in my niche and make a better version", use the viral-blueprint
+skill (within the project's niche): vidIQ search → most-viewed picks → blueprint → original script via
+prompts/04-script.md, copy-checked with its blueprint.py check.
+
 vidIQ is connected through .mcp.json and requires authentication in this Claude
 environment. Agent-Reach is a separate local CLI. Check live tools and their
 schemas; do not pretend ChatGPT credentials or unavailable tools are present.
